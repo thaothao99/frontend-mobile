@@ -16,7 +16,6 @@ export default function NavigationApp() {
             <Tab.Navigator
                 initialRouteName="Home"
                 activeColor="#000000"
-                style={{ backgroundColor: "#FFFFFF" }}
                 barStyle={{ backgroundColor: '#FFFFFF' }}
             >
                 <Tab.Screen
@@ -26,7 +25,7 @@ export default function NavigationApp() {
                         {
                             tabBarLabel: 'Home',
                             tabBarIcon: ({ color }) => (
-                                <Ionicons name="md-home" color={color} size={30} />
+                                <Ionicons name="md-home" color={color} size={26} />
                             )
                         }
                     }
@@ -37,7 +36,7 @@ export default function NavigationApp() {
                     options={
                         {
                             tabBarIcon: ({ color }) => (
-                                <Ionicons name="ios-color-filter" color={color} size={30} />
+                                <Ionicons name="ios-color-filter" color={color} size={26} />
                             )
                         }
                     }
@@ -49,7 +48,7 @@ export default function NavigationApp() {
                     options={
                         {
                             tabBarIcon: ({ color }) => (
-                                <Ionicons name="ios-search" color={color} size={30} />
+                                <Ionicons name="ios-search" color={color} size={26} />
                             )
                         }
                     } />
@@ -59,7 +58,7 @@ export default function NavigationApp() {
                     options={
                         {
                             tabBarIcon: ({ color }) => (
-                                <Ionicons name="md-person" color={color} size={30} />
+                                <Ionicons name="md-person" color={color} size={26} />
                             )
                         }
                     }
