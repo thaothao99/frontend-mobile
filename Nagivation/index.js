@@ -1,18 +1,70 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-import HomeScreen from '../Screens/home'
-import LoginScreen from '../Screens/login'
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import HomeScreen from '../Screens/home';
+import CategoryScreen from '../Screens/category';
+import SearchScreen from '../Screens/search';
+import AccountScreen from '../Screens/account';
+import { Ionicons } from '@expo/vector-icons';
+
+
+const Tab = createMaterialBottomTabNavigator();
 
 export default function NavigationApp() {
-    const Stack = createStackNavigator()
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
-                <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
+            <Tab.Navigator
+                initialRouteName="Home"
+                activeColor="#000000"
+                style={{ backgroundColor: "#FFFFFF" }}
+                barStyle={{ backgroundColor: '#FFFFFF' }}
+            >
+                <Tab.Screen
+                    name="Home"
+                    component={HomeScreen}
+                    options={
+                        {
+                            tabBarLabel: 'Home',
+                            tabBarIcon: ({ color }) => (
+                                <Ionicons name="md-home" color={color} size={30} />
+                            )
+                        }
+                    }
+                />
+                <Tab.Screen
+                    name="Category"
+                    component={CategoryScreen}
+                    options={
+                        {
+                            tabBarIcon: ({ color }) => (
+                                <Ionicons name="ios-color-filter" color={color} size={30} />
+                            )
+                        }
+                    }
 
-            </Stack.Navigator>
+                />
+                <Tab.Screen
+                    name="Search"
+                    component={SearchScreen}
+                    options={
+                        {
+                            tabBarIcon: ({ color }) => (
+                                <Ionicons name="ios-search" color={color} size={30} />
+                            )
+                        }
+                    } />
+                <Tab.Screen
+                    name="Account"
+                    component={AccountScreen}
+                    options={
+                        {
+                            tabBarIcon: ({ color }) => (
+                                <Ionicons name="md-person" color={color} size={30} />
+                            )
+                        }
+                    }
+                />
+            </Tab.Navigator>
         </NavigationContainer>
-    )
-}   
+    );
+}
