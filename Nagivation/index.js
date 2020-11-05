@@ -53,7 +53,7 @@ export default function NavigationApp() {
                         }
                     } />
                 <Tab.Screen
-                    name="Account"
+                    name="Profile"
                     component={AccountScreen}
                     options={
                         {
