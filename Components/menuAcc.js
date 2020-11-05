@@ -21,7 +21,7 @@ export default function MenuAcc() {
                     <List.Item
                         title='Order'
                         titleStyle={{ fontSize: 14 }}
-                        left={() => <List.Icon icon='account' />}
+                        left={() => <List.Icon icon='pen' />}
                     ></List.Item>
                     <List.Item
                         title='Cart'
