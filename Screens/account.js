@@ -4,9 +4,10 @@ import InforAccount from '../Components/inforAccount'
 import MenuAcc from '../Components/menuAcc'
 import LoginScreen from './login'
 import { createStackNavigator } from '@react-navigation/stack';
+import SignupScreen from './signup'
 
 function AccountScreen({ navigation }) {
-    const navigate = string => navigation.navigate('Login')
+    const navigate = string => navigation.navigate(string)
     return (
         <View style={styles.View}>
             <InforAccount navigate={navigate}></InforAccount>
@@ -19,6 +20,7 @@ export default function HomeStackScreen() {
         <HomeStack.Navigator headerMode="none" initialRouteName="Account">
             <HomeStack.Screen name="Account" component={AccountScreen} />
             <HomeStack.Screen name="Login" component={LoginScreen} />
+            <HomeStack.Screen name="Signup" component={SignupScreen}></HomeStack.Screen>
         </HomeStack.Navigator>
     );
 }
