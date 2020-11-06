@@ -2,9 +2,11 @@ import React from 'react'
 import { Dimensions, ImageBackground, StyleSheet, View } from 'react-native'
 import { Avatar, Button } from 'react-native-paper'
 const accHeader = require('../assets/acc-header.png')
-export default function InforAccount() {
+export default function InforAccount({ navigate }) {
+    // const { navigate } = props
     const onPressLogin = () => {
-        console.log('hihi')
+        // console.log(navigate)
+        navigate('Login')
     }
     return (
         <View style={styles.container}>
@@ -16,7 +18,7 @@ export default function InforAccount() {
                 />
                 <Button
                     mode='contained'
-                    style={{ backgroundColor: '#313131', marginTop: 20, width: 150 }}
+                    style={{ backgroundColor: '#313131', marginTop: 20, width: 150, borderRadius: 10 }}
                     onPress={() => onPressLogin()}
                 >Login</Button>
             </ImageBackground>

@@ -4,12 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from '../Screens/home';
 import CategoryScreen from '../Screens/category';
 import SearchScreen from '../Screens/search';
-import AccountScreen from '../Screens/account';
 import { Ionicons } from '@expo/vector-icons';
-
+import AccountStackSceen from '../Screens/account';
 
 const Tab = createMaterialBottomTabNavigator();
-
 export default function NavigationApp() {
     return (
         <NavigationContainer>
@@ -53,8 +51,8 @@ export default function NavigationApp() {
                         }
                     } />
                 <Tab.Screen
-                    name="Profile"
-                    component={AccountScreen}
+                    name="Account"
+                    component={AccountStackSceen}
                     options={
                         {
                             tabBarIcon: ({ color }) => (

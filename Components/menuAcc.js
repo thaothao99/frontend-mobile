@@ -2,7 +2,8 @@ import React from 'react'
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native'
 import { Divider, List } from 'react-native-paper'
 
-export default function MenuAcc() {
+export default function MenuAcc({ nagivation }) {
+    const onPressNagivation = (string) => { nagivation.nagivate(string) }
     return (
         <ScrollView>
             <View style={styles.view}>
