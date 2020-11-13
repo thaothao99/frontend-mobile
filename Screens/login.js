@@ -1,8 +1,21 @@
-import React, { useState } from 'react'
-import { View, Image, StyleSheet, Text, Linking } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { View, Image, StyleSheet, Text, Linking, AsyncStorage } from 'react-native'
 import { TextInput, Button, HelperText } from 'react-native-paper'
 import { callApi, API_URL } from '../api'
+import * as WebBrowser from 'expo-web-browser';
+import MyContext from '../lib/context';
+
 export default function LoginScreen({ navigation }) {
+    const { isLogIn, token, reducer, state, dispatch } = useContext(MyContext);
+    const handleLogin = () => {
+        reducer("setLogIn", true);
+    };
+    const handleTokenUseReducer = (token) => {
+        // dispatch({ type: "setToken", value: "token" });
+        reducer("setToken", token);
+
+    };
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [errVisible, setErrVisible] = useState(false)
@@ -28,10 +41,47 @@ export default function LoginScreen({ navigation }) {
 
         }
     }
-    const onPressLoginGG = () => {
-        // callApi('get', 'auth/google', null)
-        // const endpointGG = 'auth/google'
-        // return Linking.openURL(`${API_URL}/${endpointGG}`)
+    const onPressLoginGG = async () => {
+        try {
+            // callApi('get', 'auth/google', null)
+            const endpointGG = 'auth/google'
+            // const token = await Linking.openURL(`${API_URL}/${endpointGG}`)
+
+            const redirectUrl = await Linking.getInitialURL()
+
+            WebBrowser.openAuthSessionAsync(`${API_URL}/${endpointGG}`, redirectUrl).then((res) => {
+                const { url } = res
+                const tokenRes = url && url.split('=')[1]
+                if (tokenRes === 'false') {
+                    setErrVisible(true)
+                    setTextErr('Email not found. Please sign up!')
+                }
+                else {
+                    handleLogin()
+                    handleTokenUseReducer(tokenRes)
+                    navigation.navigate('Account')
+                }
+            })
+            // const { url } = res
+            // const tokenRes = url && url.split('=')[1]
+            // // console.log(token)
+            // if (tokenRes === 'false') {
+            //     setErrVisible(true)
+            //     setTextErr('Email not found. Please sign up!')
+            // }
+            // else {
+            //     // handleLogin()
+            //     // handleTokenUseReducer()
+            //     console.log(token, tokenRes)
+            //     // navigation.navigate('Account')
+            //     // AsyncStorage.setItem('token', token).then(() => navigation.navigate('Account'))
+            //     // console.log(await AsyncStorage.getItem('token'))
+            //     // dispatch(userAction.login(token))
+            // }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <View style={styles.view}>
@@ -74,7 +124,9 @@ export default function LoginScreen({ navigation }) {
 
             <View style={styles.viewBot}>
                 <View>
-                    <Text>Forgot your password?</Text>
+                    <Text
+
+                    >Forgot your password?</Text>
                 </View>
                 <View>
                     <Button

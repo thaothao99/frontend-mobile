@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Dimensions, ImageBackground, StyleSheet, View } from 'react-native'
 import { Avatar, Button } from 'react-native-paper'
+import MyContext from '../lib/context';
 const accHeader = require('../assets/acc-header.png')
 export default function InforAccount({ navigate }) {
+    const { isLogIn, token, reducer, state, dispatch } = useContext(MyContext);
+    const handleLogout = () => {
+        reducer("setLogIn", false);
+    };
+    const handleTokenUseReducer = () => {
+        reducer("setToken", "");
+    };
+
     // const { navigate } = props
-    const onPressLogin = () => {
-        // console.log(navigate)
+    const onPressLogin = async () => {
+        console.log(await AsyncStorage.getItem('token'))
         navigate('Login')
     }
     return (
@@ -16,11 +25,24 @@ export default function InforAccount({ navigate }) {
                     size={80}
                     icon='account'
                 />
-                <Button
-                    mode='contained'
-                    style={{ backgroundColor: '#313131', marginTop: 20, width: 150, borderRadius: 10 }}
-                    onPress={() => onPressLogin()}
-                >Login</Button>
+                {
+                    !isLogIn &&
+                    <Button
+                        mode='contained'
+                        style={{ backgroundColor: '#313131', marginTop: 20, width: 150, borderRadius: 10 }}
+                        onPress={() => onPressLogin()}
+                    >Login</Button>
+
+                }
+                {
+                    isLogIn &&
+                    <Button
+                        mode='contained'
+                        style={{ backgroundColor: '#313131', marginTop: 20, width: 150, borderRadius: 10 }}
+                        onPress={() => { handleLogout(); handleTokenUseReducer() }}
+                    >Logout</Button>
+
+                }
             </ImageBackground>
         </View>
     );
