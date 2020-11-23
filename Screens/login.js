@@ -55,7 +55,7 @@ export default function LoginScreen({ navigation }) {
             WebBrowser.openAuthSessionAsync(`${API_URL}/${endpointGG}`, redirectUrl).then((res) => {
                 const { url } = res
                 const tokenRes = url && url.split('=')[1]
-                if (tokenRes === 'false') {
+                if (tokenRes && tokenRes === 'false') {
                     setErrVisible(true)
                     setTextErr('Email not found. Please sign up!')
                 }

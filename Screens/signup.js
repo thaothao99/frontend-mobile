@@ -1,20 +1,53 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { View, Image, StyleSheet, Dimensions, Text } from 'react-native'
 import { TextInput, Button, HelperText } from 'react-native-paper'
+import { callApi } from '../api'
+import MyContext from '../lib/context'
 
 export default function SignupScreen({ navigation }) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [confirmPass, setConfirmPass] = useState('')
+    const [errVisible, setErrVisible] = useState(false)
+    const [textErr, setTextErr] = useState('')
+    const { isLogIn, token, reducer, state, dispatch } = useContext(MyContext);
+    const handleLogin = () => {
+        reducer("setLogIn", true);
+    };
+    const handleTokenUseReducer = (token) => {
+        // dispatch({ type: "setToken", value: "token" });
+        reducer("setToken", token);
+
+    };
+
     const checkPassword = () => {
-        return confirmPass !== password
+        return confirmPass && confirmPass !== password
     }
     const singupAcc = () => {
         return true // login success
     }
     const onPressSignup = () => {
-        navigation.navigate('Account')
+        if (username === '' || password === '' || email === '' || confirmPass === '') {
+            setErrVisible(true)
+            setTextErr('Please enter all required information!')
+        }
+        else {
+            const data = { username, password, email }
+            callApi('post', 'account/create', data)
+                .then(resData => {
+                    if (resData.statusCode && resData.statusCode !== 200) { // singupfail
+                        setErrVisible(true)
+                        setTextErr(resData.message)
+                    }
+                    else {
+                        const { token } = resData
+                        handleLogin()
+                        handleTokenUseReducer(token)
+                        navigation.navigate('Account')
+                    }
+                })
+        }
     }
     return (
         <View style={styles.view}>
@@ -29,6 +62,7 @@ export default function SignupScreen({ navigation }) {
                 selectionColor='#111'
                 underlineColor='#111'
                 style={{ marginTop: 20, height: 60, width: '100%' }}
+                autoCapitalize="none"
             ></TextInput>
             <TextInput
                 label="Username"
@@ -37,6 +71,7 @@ export default function SignupScreen({ navigation }) {
                 selectionColor='#111'
                 underlineColor='#111'
                 style={{ marginTop: 20, height: 60, width: '100%' }}
+                autoCapitalize="none"
             ></TextInput>
 
             <TextInput
@@ -47,7 +82,7 @@ export default function SignupScreen({ navigation }) {
                 selectionColor='#111'
                 underlineColor='#111'
                 style={{ marginTop: 20, height: 60, width: '100%' }}
-
+                autoCapitalize="none"
             ></TextInput>
             <TextInput
                 label="New Password"
@@ -57,6 +92,7 @@ export default function SignupScreen({ navigation }) {
                 selectionColor='#111'
                 underlineColor='#111'
                 style={{ marginTop: 20, height: 60, width: '100%' }}
+                autoCapitalize="none"
             ></TextInput>
             <HelperText type='error' visible={checkPassword()}>The password confirmation does not match!</HelperText>
 
@@ -71,7 +107,7 @@ export default function SignupScreen({ navigation }) {
                     <Text onPress={() => navigation.navigate('Login')}>Already have an account?</Text>
                 </View>
             </View>
-            <HelperText type='error' visible={false}>Email has been existed!</HelperText>
+            <HelperText type='error' visible={errVisible}>{textErr}</HelperText>
         </View>
 
     )
