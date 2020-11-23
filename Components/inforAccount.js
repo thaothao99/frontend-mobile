@@ -14,7 +14,6 @@ export default function InforAccount({ navigate }) {
 
     // const { navigate } = props
     const onPressLogin = async () => {
-        console.log(await AsyncStorage.getItem('token'))
         navigate('Login')
     }
     return (

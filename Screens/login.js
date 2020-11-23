@@ -35,6 +35,9 @@ export default function LoginScreen({ navigation }) {
                         setTextErr(resData.message)
                     }
                     else {
+                        const { token } = resData
+                        handleLogin()
+                        handleTokenUseReducer(token)
                         navigation.navigate('Account')
                     }
                 })
